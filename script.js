@@ -6,7 +6,7 @@ const themeToggle = document.getElementById('themeToggle');
 // OpenAI Configuration
 const ENCODED_KEY = 'c2stcHJvai00OXdDTmw5RWtIcmR1YXJOT1V0dDB5bFFDNVlQTnBBV09takUySXBDcVdRYmZ3MFo2c09QeG43Nnl5elNidnhpLXg2Y2xqUUZmWlQzQmxia0ZKcWhTU2FFZ1VYQUZyM25pWnNCVVdxcWZQVmluRFFLbW1kZlN0TVJ5VmFZY2FZQk9IZEQtRHBwSHZ0ekJuQ0t1amdtZUJoZ3lSSUE=';
 const OPENAI_API_KEY = atob(ENCODED_KEY);
-const API_URL = 'https://api.openai.com/v1/chat/completions';
+const API_URL = 'https://your-backend-domain.com/api/chat';
 
 // Store conversations for context
 let conversationHistory = [];
@@ -126,13 +126,15 @@ async function getBotResponse(message) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'Origin': 'https://yourusername.github.io'  // Add your GitHub Pages domain
             },
             body: JSON.stringify(requestBody)
         });
         
         if (!response.ok) {
             const errorText = await response.text();
+            console.error('API Error:', errorText);  // Add more detailed error logging
             throw new Error(`API request failed: ${response.status} - ${errorText}`);
         }
 
@@ -252,9 +254,13 @@ async function sendMessage() {
             }
         }
     } catch (error) {
-        console.error('Error in sendMessage:', error);
-        if (error.message.includes('429')) {
+        console.error('Detailed error:', error);
+        if (error.message.includes('401')) {
+            addMessage("Authentication error. Please check the API configuration.", false);
+        } else if (error.message.includes('429')) {
             addMessage("Too many requests. Please wait a moment and try again.", false);
+        } else if (error.message.includes('CORS')) {
+            addMessage("CORS error. Please check the API configuration.", false);
         } else {
             addMessage("Sorry, I'm having trouble connecting to OpenAI. Please try again.", false);
         }
