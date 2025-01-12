@@ -1,0 +1,16 @@
+{
+    "name": "Chatbot",
+    "short_name": "Chatbot",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#007AFF",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "path-to-your-icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+} 

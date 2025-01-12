@@ -174,6 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleBtn.textContent = '🔒 Switch to Trainer Mode';
     }
     chatHistory.innerHTML = '';
+
+    // Handle iOS full-screen
+    if (navigator.standalone) {
+        document.documentElement.style.height = '100vh';
+        document.body.style.height = '100vh';
+    }
 });
 
 // Function to determine which chatbot to use
@@ -436,4 +442,14 @@ function saveUserResponse(originalMessage) {
 function checkTrainerPasscode() {
     const passcode = prompt("Please enter the trainer mode passcode:");
     return passcode === "0321";
-} 
+}
+
+// Add this function to handle orientation changes
+window.addEventListener('resize', () => {
+    // Force height recalculation on orientation change
+    document.documentElement.style.height = '100vh';
+    document.body.style.height = '100vh';
+    
+    // Prevent bounce effect
+    document.body.scrollTop = 0;
+}); 

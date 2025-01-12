@@ -85,20 +85,23 @@ input:checked + .slider:before {
 }
 
 .main-container {
+    width: 100%;
+    max-width: 500px;
+    height: 100vh;
+    height: -webkit-fill-available; /* For iOS Safari */
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 500px;
-    margin-top: 20px;
-    padding: 10px;
-    gap: 0;
+    overflow: hidden;
 }
 
 .avatar-container {
-    position: relative;
-    width: 300px;
-    height: 250px;
-    margin-bottom: -20px;
+    width: 200px;
+    height: 150px;
+    margin-bottom: 0;
+    flex-shrink: 0;
 }
 
 #botFace {
@@ -145,26 +148,37 @@ input:checked + .slider:before {
 }
 
 .chat-container {
+    flex: 1;
     width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-box {
-    width: 100%;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 15px;
-    background-color: var(--bg-color);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 #chatHistory {
-    height: 400px;
+    flex: 1;
     overflow-y: auto;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 0;
+    height: auto;
 }
 
 .input-area {
-    display: flex;
-    gap: 10px;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    box-sizing: border-box;
 }
 
 #userInput {
@@ -255,48 +269,42 @@ button {
 
 /* Mobile-specific styles */
 @media screen and (max-width: 768px) {
-    .main-container {
-        width: 100%;
-        margin: 0;
-        padding: 10px;
+    body {
+        /* Add safe area insets for notched phones */
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 
-    .avatar-container {
-        width: 200px;
-        height: 170px;
+    .main-container {
+        padding: 0;
     }
 
     #botFace {
-        font-size: 100px;
-    }
-
-    .chat-box {
-        margin-top: 10px;
-    }
-
-    #chatHistory {
-        height: 50vh;  /* Viewport-based height */
-    }
-
-    .input-area {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 10px;
-        background: var(--bg-color);
-        border-top: 1px solid var(--border-color);
-    }
-
-    /* Adjust button positions for mobile */
-    .mode-switch {
-        top: 10px;
-        left: 10px;
+        font-size: 80px;
     }
 
     .theme-switch-wrapper {
-        top: 10px;
+        top: max(10px, env(safe-area-inset-top));
         right: 10px;
+    }
+
+    .mode-switch {
+        top: max(10px, env(safe-area-inset-top));
+        left: 10px;
+    }
+
+    .message {
+        max-width: 85%;
+        font-size: 0.95em;
+    }
+
+    #userInput {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 8px 12px;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 14px;
     }
 }
 
@@ -516,4 +524,11 @@ input, textarea, .message {
     --message-bg: #383838;
     --border-color: #444444;
     --text-color: #ffffff;
+}
+
+/* Add this to prevent content from being hidden under the home indicator on iPhone X and newer */
+@supports (padding: max(0px)) {
+    .input-area {
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+    }
 } 
