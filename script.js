@@ -166,7 +166,13 @@ function loadConversationHistory() {
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
     loadConversationHistory();
-    toggleMode();
+    // Force public mode on startup
+    localStorage.setItem('chatMode', 'public');
+    const toggleBtn = document.getElementById('modeToggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = '🔒 Switch to Trainer Mode';
+    }
+    chatHistory.innerHTML = '';
 });
 
 // Function to determine which chatbot to use
@@ -284,16 +290,24 @@ themeToggle.addEventListener('change', function() {
 // Add mode toggle function
 function toggleMode() {
     const currentMode = localStorage.getItem('chatMode') || 'public';
-    const newMode = currentMode === 'public' ? 'trainer' : 'public';
-    localStorage.setItem('chatMode', newMode);
     
-    const toggleBtn = document.getElementById('modeToggle');
-    toggleBtn.textContent = newMode === 'public' ? 
-        '🔒 Switch to Trainer Mode' : 
-        '👥 Switch to Public Mode';
-    
-    // Clear chat history when switching modes
-    chatHistory.innerHTML = '';
+    if (currentMode === 'public') {
+        // Switching to trainer mode requires passcode
+        if (checkTrainerPasscode()) {
+            localStorage.setItem('chatMode', 'trainer');
+            const toggleBtn = document.getElementById('modeToggle');
+            toggleBtn.textContent = '👥 Switch to Public Mode';
+            chatHistory.innerHTML = '';
+        } else {
+            alert('Incorrect passcode. Staying in public mode.');
+        }
+    } else {
+        // Switching back to public mode doesn't require passcode
+        localStorage.setItem('chatMode', 'public');
+        const toggleBtn = document.getElementById('modeToggle');
+        toggleBtn.textContent = '🔒 Switch to Trainer Mode';
+        chatHistory.innerHTML = '';
+    }
 }
 
 // Add this function to detect topics in messages
@@ -415,4 +429,10 @@ function saveUserResponse(originalMessage) {
         const inputDiv = responseInput.closest('.response-input');
         inputDiv.remove();
     }
+}
+
+// Add this function to check the passcode
+function checkTrainerPasscode() {
+    const passcode = prompt("Please enter the trainer mode passcode:");
+    return passcode === "0321";
 } 

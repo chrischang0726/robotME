@@ -7,11 +7,12 @@
 }
 
 [data-theme="dark"] {
+    --primary-color: #0A84FF;
     --bg-color: #1a1a1a;
+    --input-bg: #2d2d2d;
+    --message-bg: #383838;
+    --border-color: #444444;
     --text-color: #ffffff;
-    --chat-bg: #2d2d2d;
-    --user-msg-bg: #1e3a5f;
-    --border-color: #444;
 }
 
 body {
@@ -384,4 +385,135 @@ input, textarea, button {
 .close-btn:hover {
     background-color: var(--border-color);
     border-radius: 5px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    /* Add safe area padding for notched phones */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* Update your main container */
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-color);
+}
+
+/* Update chat history container */
+#chatHistory {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    padding-bottom: env(safe-area-inset-bottom);
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Update input area */
+.input-area {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 0.5rem;
+}
+
+#userInput {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    font-size: 1rem;
+    -webkit-appearance: none;
+}
+
+/* Add styles for messages */
+.message {
+    max-width: 80%;
+    margin: 0.5rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    word-wrap: break-word;
+}
+
+.user-message {
+    margin-left: auto;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 1rem 1rem 0.25rem 1rem;
+}
+
+.bot-message {
+    margin-right: auto;
+    background: var(--message-bg);
+    border-radius: 1rem 1rem 1rem 0.25rem;
+}
+
+/* Add these for better touch handling */
+button {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection */
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Allow text selection in input and messages */
+input, textarea, .message {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+/* Add smooth scrolling */
+* {
+    scroll-behavior: smooth;
+}
+
+/* Hide scrollbars but keep functionality */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Add this to your existing theme variables */
+:root {
+    --primary-color: #007AFF;
+    --bg-color: #F2F2F7;
+    --input-bg: #FFFFFF;
+    --message-bg: #E9E9EB;
+    --border-color: #C7C7CC;
+}
+
+[data-theme="dark"] {
+    --primary-color: #0A84FF;
+    --bg-color: #1a1a1a;
+    --input-bg: #2d2d2d;
+    --message-bg: #383838;
+    --border-color: #444444;
+    --text-color: #ffffff;
 } 
