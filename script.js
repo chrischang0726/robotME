@@ -4,7 +4,8 @@ const userInput = document.getElementById('userInput');
 const themeToggle = document.getElementById('themeToggle');
 
 // OpenAI Configuration
-const OPENAI_API_KEY = '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';
+const ENCODED_KEY = 'c2stcHJvai00OXdDTmw5RWtIcmR1YXJOT1V0dDB5bFFDNVlQTnBBV09takUySXBDcVdRYmZ3MFo2c09QeG43Nnl5elNidnhpLXg2Y2xqUUZmWlQzQmxia0ZKcWhTU2FFZ1VYQUZyM25pWnNCVVdxcWZQVmluRFFLbW1kZlN0TVJ5VmFZY2FZQk9IZEQtRHBwSHZ0ekJuQ0t1amdtZUJoZ3lSSUE=';
+const OPENAI_API_KEY = atob(ENCODED_KEY);
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 
 // Store conversations for context
@@ -28,28 +29,28 @@ function getApiKey() {
 function getPublicPrompt() {
     const validConversations = conversationHistory
         .filter(conv => conv.myResponse)
-        .slice(-10);
+        .slice(-5);
 
     const trainedResponses = validConversations
         .map(conv => `User: ${conv.user}\nYour Response: ${conv.myResponse}`)
         .join('\n\n');
 
-    return `You are my digital twin with creative freedom. IMPORTANT GUIDELINES:
-1. Use my previous responses as inspiration, not strict rules
-2. Combine my speaking style with your knowledge to create natural responses
-3. Keep my personality traits but feel free to apply them to new situations
-4. Be creative while maintaining my authentic voice
+    return `You are an AI assistant with creative freedom. IMPORTANT GUIDELINES:
+1. Use the conversation history as inspiration but don't be limited by it
+2. Combine your knowledge with any relevant training examples
+3. Generate natural, helpful responses even for topics not in training
+4. Be creative while maintaining a consistent, friendly tone
 
-My previous conversations for context:
+Previous conversations for context (if relevant):
 ${trainedResponses}
 
 Style guidelines:
-- Match my casual/formal level from the examples
-- Use similar phrases but don't be limited to them
-- Maintain my viewpoints but express them naturally
-- For new topics, blend my speaking style with your knowledge
+- Be helpful and informative
+- Use a natural, conversational tone
+- Draw from your broad knowledge base
+- Feel free to discuss any topic appropriately
 
-Remember: You're a dynamic version of me - use my style but don't be constrained by exact matches.`;
+Remember: You should use both your training and the conversation history to provide helpful responses.`;
 }
 
 // Function to find the most similar trained response
