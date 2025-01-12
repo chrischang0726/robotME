@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Talking Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch">
+            <input type="checkbox" id="themeToggle">
+            <div class="slider round"></div>
+        </label>
+        <span>Dark Mode</span>
+    </div>
+    <div class="main-container">
+        <div class="avatar-container">
+            <div id="botFace">🤖</div>
+            <div class="mouth" id="botMouth">
+                <span></span>
+            </div>
+        </div>
+        <div class="admin-panel" style="display: none;">
+            <h3>Update Knowledge Base</h3>
+            <select id="categorySelect">
+                <option value="coding">Coding</option>
+                <option value="personal">Personal</option>
+                <option value="technical">Technical</option>
+                <!-- Add more categories -->
+            </select>
+            <input type="text" id="subcategoryInput" placeholder="Subcategory">
+            <textarea id="contentInput" placeholder="New content"></textarea>
+            <button onclick="updateKnowledge()">Update</button>
+        </div>
+        <button id="adminToggle" onclick="toggleAdmin()">⚙️</button>
+        <div class="chat-container">
+            <div class="chat-box">
+                <div id="chatHistory"></div>
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Type your message...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+        <div class="mode-switch">
+            <button id="modeToggle" onclick="toggleMode()">
+                🔒 Switch to Public Mode
+            </button>
+        </div>
+        <div class="training-data-viewer">
+            <button id="viewTrainingBtn" onclick="toggleTrainingViewer()">📚 View Training Data</button>
+            <div id="trainingViewer" class="training-viewer" style="display: none;">
+                <h3>Training Conversations</h3>
+                <div id="trainingList"></div>
+                <button onclick="clearTrainingData()">Clear All Training Data</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
